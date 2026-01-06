@@ -1,0 +1,70 @@
+{
+  "name": "@todovue/tv-progress-bar",
+  "private": false,
+  "author": "Cristhian Daza",
+  "description": "A simple and customizable progress bar component for Vue.js applications.",
+  "license": "MIT",
+  "version": "0.0.0",
+  "type": "module",
+  "homepage": "https://ui.todovue.blog/progressbar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TODOvue/tv-progress-bar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TODOvue/tv-progress-bar/issues"
+  },
+  "keywords": [
+    "todovue",
+    "front-end",
+    "web",
+    "vue",
+    "vuejs",
+    "vue-js",
+    "progress",
+    "progress-bar",
+    "show-progress",
+    "loading-bar",
+    "vue-progress-bar",
+    "vue-progress-bar-component"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/tv-progress-bar.es.js",
+      "require": "./dist/tv-progress-bar.cjs.js"
+    },
+    "./style.css": "./dist/tv-progress-bar.css",
+    "./nuxt": "./nuxt.js"
+  },
+  "main": "dist/tv-progress-bar.cjs.js",
+  "module": "dist/tv-progress-bar.es.js",
+  "types": "dist/tv-progress-bar.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "nuxt.js"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "dist/*.css"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:demo": "cp README.md public/ && cp CHANGELOG.md public/ && VITE_BUILD_TARGET=demo vite build"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.26"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.3",
+    "sass": "^1.97.1",
+    "vite": "^7.3.0",
+    "vite-plugin-dts": "^4.5.4"
+  }
+}
