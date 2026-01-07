@@ -23,9 +23,9 @@ defineProps({
     type: Number,
     default: 1200
   },
-  enabled: {
+  disabled: {
     type: Boolean,
-    default: true
+    default: false
   },
   color: {
     type: String,
@@ -44,7 +44,7 @@ const contentRef = ref(null)
       :offset-bottom="offsetBottom"
       :height="height"
       :z-index="zIndex"
-      :enabled="enabled"
+      :disabled="disabled"
       :color="color"
     />
     <div ref="contentRef" class="container-blog">

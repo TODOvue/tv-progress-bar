@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `offsetTop` prop to account for fixed headers (default: 0)
 - `offsetBottom` prop to account for fixed footers (default: 0)
 - `zIndex` prop for controlling stacking order (default: 1200)
-- `enabled` prop to conditionally show/hide the progress bar (default: true)
+- `disabled` prop to conditionally show/hide the progress bar (default: false)
 - Smooth linear transitions with 120ms duration
 - Reduced motion support via `prefers-reduced-motion` media query
 - SSR-safe implementation with proper window/document guards

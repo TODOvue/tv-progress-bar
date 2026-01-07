@@ -23,9 +23,9 @@ const props = defineProps({
     type: Number,
     default: 1200
   },
-  enabled: {
+  disabled: {
     type: Boolean,
-    default: true
+    default: false
   },
   color: {
     type: String,
@@ -37,7 +37,7 @@ const el = ref(null)
 
 const resolveTarget = () => {
   if (typeof window === 'undefined') return null
-  if (!props.enabled) return null
+  if (props.disabled) return null
 
   if (props.target && typeof props.target !== 'string') {
     const maybeEl = unref(props.target)
@@ -61,7 +61,7 @@ const { progress, progressPercent, recalculate } = useProgressBar(el, {
 })
 
 watch(
-  () => [el.value, props.enabled],
+  () => [el.value, props.disabled],
   () => {
     if (typeof window === 'undefined') return
     recalculate()
@@ -75,7 +75,7 @@ const widthStyle = computed(() => `${progress.value * 100}%`)
 
 <template>
   <div
-    v-if="enabled"
+    v-if="!disabled"
     class="reading-progress"
     :style="{ height, zIndex: String(zIndex) }"
   >

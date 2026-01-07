@@ -1,7 +1,7 @@
 <template>
   <tv-progress-bar
     :target="articleContainer"
-    :enabled="false"
+    disabled
   />
 
   <div ref="articleContainer">

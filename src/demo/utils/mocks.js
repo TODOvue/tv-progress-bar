@@ -43,7 +43,7 @@ export const demos = [
     propsData: {
       offsetTop: 0,
       offsetBottom: 0,
-      enabled: false,
+      disabled: true,
     },
     html: Disabled,
   },

@@ -199,7 +199,7 @@ import { TvProgressBar } from '@todovue/tv-progress-bar'
 | offsetBottom | Number           | 0                 | Bottom offset in pixels (useful for fixed footers).             |
 | height       | String           | '4px'             | Height of the progress bar (CSS value).                         |
 | zIndex       | Number           | 1200              | Z-index for the progress bar positioning.                       |
-| enabled      | Boolean          | true              | Whether the progress bar is enabled and visible.                |
+| disabled     | Boolean          | false             | Whether the progress bar is enabled and visible.                |
 | color        | String           | ''                | Custom background color for the progress bar (CSS color value). |
 
 ### Prop Details
@@ -264,7 +264,7 @@ Example:
 <TvProgressBar :target="articleRef" :z-index="9999" />
 ```
 
-#### `enabled`
+#### `disabled`
 Allows you to conditionally enable/disable the progress bar. When disabled, the bar won't be rendered.
 
 Example:
@@ -276,7 +276,7 @@ const showProgress = ref(true)
 </script>
 
 <template>
-  <TvProgressBar :target="articleRef" :enabled="showProgress" />
+  <TvProgressBar :target="articleRef" :disabled="showProgress" />
 </template>
 ```
 
@@ -559,7 +559,7 @@ const showProgress = ref(true)
     
     <TvProgressBar 
       :target="articleContainer" 
-      :enabled="showProgress" 
+      :disabled="showProgress" 
     />
     
     <article ref="articleContainer">
@@ -589,7 +589,7 @@ const articleContainer = ref(null)
       height="6px"
       color="#ff6b6b"
       :z-index="9999"
-      :enabled="true"
+      disabled
     />
     
     <article ref="articleContainer">
