@@ -1,11 +1,18 @@
 <script setup>
+import { defineAsyncComponent } from 'vue'
+import { demos } from "./utils/mocks.js";
 
+const TvProgressBarDemo = defineAsyncComponent(/* webpackChunkName: "tvProgressBarDemo" */() => import('../components/TvProgressBarDemo.vue'))
 </script>
 
 <template>
-  <h1>Demo TvProgressBar</h1>
+  <TvDemo
+    :component="TvProgressBarDemo"
+    :variants="demos"
+    component-name="TvProgressBar"
+    npm-install="@todovue/tv-progress-bar"
+    source-link="https://github.com/TODOvue/tv-progress-bar"
+    url-clone="https://github.com/TODOvue/tv-progress-bar.git"
+    version="1.0.0"
+  />
 </template>
-
-<style scoped>
-
-</style>
