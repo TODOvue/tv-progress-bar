@@ -2,7 +2,7 @@
 import { defineAsyncComponent, ref } from 'vue'
 const TvProgressBarDemo = defineAsyncComponent(/* webpackChunkName: "TvProgressBar" */() => import('./TvProgressBar.vue'))
 
-defineProps({
+const props = defineProps({
   target: {
     type: [String, Object],
     default: '.container-blog'
@@ -19,6 +19,10 @@ defineProps({
     type: String,
     default: '4px'
   },
+  width: {
+    type: String,
+    default: '4px'
+  },
   zIndex: {
     type: Number,
     default: 1200
@@ -30,6 +34,46 @@ defineProps({
   color: {
     type: String,
     default: ''
+  },
+  gradient: {
+    type: Array,
+    default: () => []
+  },
+  glow: {
+    type: Boolean,
+    default: false
+  },
+  glowColor: {
+    type: String,
+    default: ''
+  },
+  duration: {
+    type: String,
+    default: '120ms'
+  },
+  easing: {
+    type: String,
+    default: 'linear'
+  },
+  orientation: {
+    type: String,
+    default: 'horizontal'
+  },
+  position: {
+    type: String,
+    default: 'top'
+  },
+  showLabel: {
+    type: Boolean,
+    default: false
+  },
+  labelPosition: {
+    type: String,
+    default: 'inside'
+  },
+  checkpoints: {
+    type: Array,
+    default: () => []
   }
 })
 
@@ -43,9 +87,20 @@ const contentRef = ref(null)
       :offset-top="offsetTop"
       :offset-bottom="offsetBottom"
       :height="height"
+      :width="width"
       :z-index="zIndex"
       :disabled="disabled"
       :color="color"
+      :gradient="gradient"
+      :glow="glow"
+      :glow-color="glowColor"
+      :duration="duration"
+      :easing="easing"
+      :orientation="orientation"
+      :position="position"
+      :show-label="showLabel"
+      :label-position="labelPosition"
+      :checkpoints="checkpoints"
     />
     <div ref="contentRef" class="container-blog">
       <h1>TvProgressBar</h1>
@@ -64,5 +119,7 @@ const contentRef = ref(null)
 </template>
 
 <style scoped>
-
+.container-blog {
+  height: 100px;
+}
 </style>

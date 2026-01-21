@@ -16,12 +16,11 @@ A lightweight, customizable Vue 3 reading progress bar component that tracks scr
 
 > Demo: https://ui.todovue.blog/progressbar
 
----
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
 - [Quick Start (SPA)](#quick-start-spa)
-- [Nuxt 4 / SSR Usage](#nuxt-3--ssr-usage)
+- [Nuxt 4 / SSR Usage](#nuxt-4--ssr-usage)
 - [Component Registration Options](#component-registration-options)
 - [Props](#props)
 - [Composable API](#composable-api)
@@ -32,11 +31,17 @@ A lightweight, customizable Vue 3 reading progress bar component that tracks scr
 - [Contributing](#contributing)
 - [License](#license)
 
----
 ## Features
 - Real-time reading progress tracking based on scroll position
 - Flexible target selection (CSS selector, element reference, or DOM element)
 - Configurable height and color
+- Support for Gradients: Pass multiple colors for a modern look
+- Glow Effect: Optional neon glow that follows the progress bar
+- Customizable Transitions: Configure duration and easing functions
+- **Vertical Orientation**: Support for side progress bars (left/right)
+- **Reading Checkpoints**: Display indicators at specific progress points (e.g., 25%, 50%, 75%)
+- **Progress Labels**: Show percentage inside the bar or as a floating bubble
+- **Flexible Positioning**: Fix the bar at the top, bottom, left, right, or use sticky behavior
 - Top and bottom offset support for fixed headers/footers
 - Smooth linear transitions with reduced motion support
 - SSR-safe (works with Nuxt 3 and other SSR frameworks)
@@ -47,7 +52,6 @@ A lightweight, customizable Vue 3 reading progress bar component that tracks scr
 - Lightweight and tree-shakeable
 - TypeScript support
 
----
 ## Installation
 Using npm:
 ```bash
@@ -91,7 +95,6 @@ export default defineNuxtConfig({
 
 Then register the component in a plugin as shown in the [Nuxt 3 / SSR Usage](#nuxt-3--ssr-usage) section.
 
----
 ## Quick Start (SPA)
 Global registration (main.js / main.ts):
 ```js
@@ -130,8 +133,7 @@ const articleContainer = ref(null)
 ```
 **Note:** Don't forget to import the CSS in your main entry file as shown above.
 
----
-## Nuxt 3 / SSR Usage
+## Nuxt 4 / SSR Usage
 First, add the module to your `nuxt.config.ts`:
 ```ts
 // nuxt.config.ts
@@ -182,7 +184,6 @@ import { TvProgressBar } from '@todovue/tv-progress-bar'
 </script>
 ```
 
----
 ## Component Registration Options
 | Approach                                                                     | When to use                                    |
 |------------------------------------------------------------------------------|------------------------------------------------|
@@ -190,17 +191,27 @@ import { TvProgressBar } from '@todovue/tv-progress-bar'
 | Local named import `{ TvProgressBar }`                                       | Isolated / code-split contexts                 |
 | Direct default import `import TvProgressBar from '@todovue/tv-progress-bar'` | Single usage or manual registration            |
 
----
 ## Props
-| Prop         | Type             | Default           | Description                                                     |
-|--------------|------------------|-------------------|-----------------------------------------------------------------|
-| target       | String \| Object | '.container-blog' | CSS selector or element reference to track scroll progress.     |
-| offsetTop    | Number           | 0                 | Top offset in pixels (useful for fixed headers).                |
-| offsetBottom | Number           | 0                 | Bottom offset in pixels (useful for fixed footers).             |
-| height       | String           | '4px'             | Height of the progress bar (CSS value).                         |
-| zIndex       | Number           | 1200              | Z-index for the progress bar positioning.                       |
-| disabled     | Boolean          | false             | Whether the progress bar is enabled and visible.                |
-| color        | String           | ''                | Custom background color for the progress bar (CSS color value). |
+| Prop          | Type             | Default                                          | Description                                                     |
+|---------------|------------------|--------------------------------------------------|-----------------------------------------------------------------|
+| target        | String \| Object | '.container-blog'                                | CSS selector or element reference to track scroll progress.     |
+| offsetTop     | Number           | 0                                                | Top offset in pixels (useful for fixed headers).                |
+| offsetBottom  | Number           | 0                                                | Bottom offset in pixels (useful for fixed footers).             |
+| height        | String           | '4px'                                            | Height of horizontal progress bar (CSS value).                  |
+| width         | String           | '4px'                                            | Width of vertical progress bar (CSS value).                     |
+| zIndex        | Number           | 1200                                             | Z-index for the progress bar positioning.                       |
+| disabled      | Boolean          | false                                            | Whether the progress bar is enabled and visible.                |
+| color         | String           | ''                                               | Custom background color for the progress bar (CSS color value). |
+| gradient      | Array            | []                                               | Array of colors for a linear gradient background.               |
+| glow          | Boolean          | false                                            | Whether to enable the glow effect.                              |
+| glowColor     | String           | ''                                               | Custom color for the glow effect.                               |
+| duration      | String           | '120ms'                                          | Transition duration (e.g., '300ms', '0.5s').                    |
+| easing        | String           | 'linear'                                         | Transition easing function (e.g., 'ease-in-out').               |
+| orientation   | String           | 'horizontal'                                     | Bar orientation: 'horizontal' or 'vertical'.                    |
+| position      | String           | 'top' (horiz) / 'left' (vert)                    | Positioning: 'top', 'bottom', 'left', 'right', or 'sticky'.     |
+| showLabel     | Boolean          | false                                            | Whether to show the percentage label.                           |
+| labelPosition | String           | 'inside'                                         | Label position: 'inside' or 'floating'.                         |
+| checkpoints   | Array            | []                                               | Array of numbers (0-100) to show indicators on the bar.         |
 
 ### Prop Details
 
@@ -290,7 +301,50 @@ Example:
 <TvProgressBar :target="articleRef" color="var(--primary-color)" />
 ```
 
----
+#### `gradient`
+Array of colors to create a linear gradient background. When provided, it overrides the `color` prop.
+
+Example:
+```vue
+<TvProgressBar :target="articleRef" :gradient="['#f093fb', '#f5576c']" />
+<TvProgressBar :target="articleRef" :gradient="['#84fab0', '#8fd3f4']" />
+```
+
+#### `glow`
+Enables a shadow effect that follows the progress bar, giving it a depth or "neon" look.
+
+Example:
+```vue
+<TvProgressBar :target="articleRef" glow />
+<TvProgressBar :target="articleRef" color="#00f2fe" glow />
+```
+
+#### `glowColor`
+Customizes the color of the glow effect. If not provided, it defaults to the `color` prop or the last color in the `gradient`.
+
+Example:
+```vue
+<TvProgressBar :target="articleRef" glow glow-color="#ff00ff" />
+```
+
+#### `duration`
+Sets the duration of the progress bar transition.
+
+Example:
+```vue
+<TvProgressBar :target="articleRef" duration="300ms" />
+<TvProgressBar :target="articleRef" duration="0.5s" />
+```
+
+#### `easing`
+Sets the easing function for the progress bar transition.
+
+Example:
+```vue
+<TvProgressBar :target="articleRef" easing="ease-in-out" />
+<TvProgressBar :target="articleRef" easing="cubic-bezier(0.4, 0, 0.2, 1)" />
+```
+
 ## Composable API
 TvProgressBar includes a composable `useProgressBar` that you can use to build custom progress tracking functionality.
 
@@ -381,7 +435,6 @@ const { progress, progressPercent, recalculate } = useProgressBar(articleRef, {
 </style>
 ```
 
----
 ## Usage Examples
 
 ### Default (CSS Selector)
@@ -475,6 +528,137 @@ const articleContainer = ref(null)
     </article>
   </div>
 </template>
+```
+
+### Gradient Support
+```vue
+<script setup>
+import { ref } from 'vue'
+import { TvProgressBar } from '@todovue/tv-progress-bar'
+import '@todovue/tv-progress-bar/style.css'
+
+const articleContainer = ref(null)
+</script>
+
+<template>
+  <div>
+    <TvProgressBar 
+      :target="articleContainer" 
+      :gradient="['#f093fb', '#f5576c']"
+      height="6px"
+    />
+    
+    <article ref="articleContainer">
+      <h1>My Article with Gradient</h1>
+      <p>Scroll to see the gradient progress bar...</p>
+    </article>
+  </div>
+</template>
+```
+
+### Glow Effect
+```vue
+<script setup>
+import { ref } from 'vue'
+import { TvProgressBar } from '@todovue/tv-progress-bar'
+import '@todovue/tv-progress-bar/style.css'
+
+const articleContainer = ref(null)
+</script>
+
+<template>
+  <div>
+    <TvProgressBar 
+      :target="articleContainer"
+      color="#00f2fe"
+      glow
+      height="4px"
+    />
+    
+    <article ref="articleContainer">
+      <h1>Neon Glow Progress</h1>
+      <p>Notice the subtle glow under the bar...</p>
+    </article>
+  </div>
+</template>
+```
+
+### Custom Transitions
+```vue
+<script setup>
+import { ref } from 'vue'
+import { TvProgressBar } from '@todovue/tv-progress-bar'
+import '@todovue/tv-progress-bar/style.css'
+
+const articleContainer = ref(null)
+</script>
+
+<template>
+  <div>
+    <TvProgressBar 
+      :target="articleContainer"
+      duration="800ms"
+      easing="cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+      color="#3f51b5"
+    />
+    
+    <article ref="articleContainer">
+      <h1>Bouncy Progress Bar</h1>
+      <p>Scroll fast to see the custom easing effect...</p>
+    </article>
+  </div>
+</template>
+
+### Vertical Orientation
+```vue
+<template>
+  <TvProgressBar 
+    target=".content" 
+    orientation="vertical" 
+    position="left" 
+    width="6px" 
+    color="#4f46e5" 
+  />
+</template>
+```
+
+### Reading Checkpoints
+```vue
+<template>
+  <TvProgressBar 
+    target=".content" 
+    :checkpoints="[25, 50, 75]" 
+    color="#f59e0b" 
+  />
+</template>
+```
+
+### Floating Percentage Label
+```vue
+<template>
+  <TvProgressBar 
+    target=".content" 
+    show-label 
+    label-position="floating" 
+    color="#10b981" 
+    glow 
+  />
+</template>
+```
+
+### Sticky Position (Inside Container)
+```vue
+<template>
+  <div class="relative-container">
+    <TvProgressBar 
+      target=".content" 
+      position="sticky" 
+      color="#ec4899" 
+    />
+    <div class="content">...</div>
+  </div>
+</template>
+```
 ```
 
 ### With Fixed Header (Offset Top)
@@ -667,7 +851,6 @@ const { progress, progressPercent, recalculate } = useProgressBar(contentRef, {
 </style>
 ```
 
----
 ## Accessibility
 - **ARIA Attributes**: Progress bar includes proper ARIA attributes:
   - `role="progressbar"`
@@ -680,7 +863,6 @@ const { progress, progressPercent, recalculate } = useProgressBar(contentRef, {
 - **Semantic HTML**: Uses semantic div elements with proper ARIA roles
 - **Visual Feedback**: Clear visual indication of reading progress
 
----
 ## SSR Notes
 - **SSR-Safe**: No direct `window`/`document` access during module evaluation
 - **Smart Guards**: Uses `typeof window !== 'undefined'` checks throughout
@@ -692,7 +874,6 @@ const { progress, progressPercent, recalculate } = useProgressBar(contentRef, {
 - **ResizeObserver**: Automatically recalculates on content resize
 - **Passive Listeners**: Scroll event listeners use `passive: true` for better performance
 
----
 ## Development
 ```bash
 git clone https://github.com/TODOvue/tv-progress-bar.git
@@ -703,14 +884,11 @@ npm run build   # build library
 ```
 Local demo served from Vite using `index.html` and demo examples in `src/demo`.
 
----
 ## Contributing
 PRs and issues welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 
----
 ## License
 MIT © TODOvue
 
----
 ### Attributions
 Crafted for the TODOvue component ecosystem
