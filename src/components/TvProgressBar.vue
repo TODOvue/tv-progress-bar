@@ -30,6 +30,26 @@ const props = defineProps({
   color: {
     type: String,
     default: ''
+  },
+  gradient: {
+    type: Array,
+    default: () => []
+  },
+  glow: {
+    type: Boolean,
+    default: false
+  },
+  glowColor: {
+    type: String,
+    default: ''
+  },
+  duration: {
+    type: String,
+    default: '120ms'
+  },
+  easing: {
+    type: String,
+    default: 'linear'
   }
 })
 
@@ -70,7 +90,25 @@ watch(
 
 defineExpose({ recalculate })
 
-const widthStyle = computed(() => `${progress.value * 100}%`)
+const barStyle = computed(() => {
+  const styles = {
+    width: `${progress.value * 100}%`,
+    transition: `width ${props.duration} ${props.easing}`
+  }
+
+  if (props.gradient && props.gradient.length > 0) {
+    styles.background = `linear-gradient(to right, ${props.gradient.join(', ')})`
+  } else if (props.color) {
+    styles.backgroundColor = props.color
+  }
+
+  if (props.glow) {
+    const shadowColor = props.glowColor || (props.gradient && props.gradient.length > 0 ? props.gradient[props.gradient.length - 1] : props.color || '#ef233c')
+    styles.boxShadow = `0 0 10px ${shadowColor}, 0 0 5px ${shadowColor}`
+  }
+
+  return styles
+})
 </script>
 
 <template>
@@ -81,7 +119,7 @@ const widthStyle = computed(() => `${progress.value * 100}%`)
   >
     <div
       class="reading-progress__bar"
-      :style="{ width: widthStyle, backgroundColor: color || '' }"
+      :style="barStyle"
       role="progressbar"
       aria-label="Reading progress"
       aria-valuemin="0"

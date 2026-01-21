@@ -5,7 +5,17 @@ All notable changes to `@todovue/tv-progress-bar` will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2026-01-21
+
+### Added
+- **Gradient Support**: New `gradient` prop (Array) to create modern, multicolor progress bars.
+- **Glow Effect**: New `glow` prop (Boolean) and `glowColor` (String) to add a neon-like depth effect.
+- **Customizable Transitions**: New `duration` and `easing` props to control the progress bar animation smoothness and feel.
+- New demo variants in the documentation showcasing gradients, glow effects, and custom easing functions.
+
+### Updated
+- `TvProgressBar` internal styles now use dynamic transitions and backgrounds via `:style` for better flexibility.
+- Documentation updated with detailed prop descriptions and usage examples for new aesthetic features.
 
 ### Dependencies
 - Updated `@todovue/tv-demo` to `^1.4.4`.
@@ -41,4 +51,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and usage examples
 - Demo playground with multiple configuration examples
 
+[1.1.0]: https://github.com/TODOvue/tv-progress-bar/pull/2/files
 [1.0.0]: https://github.com/TODOvue/tv-progress-bar/pull/1/files

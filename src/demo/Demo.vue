@@ -13,6 +13,6 @@ const TvProgressBarDemo = defineAsyncComponent(/* webpackChunkName: "tvProgressB
     npm-install="@todovue/tv-progress-bar"
     source-link="https://github.com/TODOvue/tv-progress-bar"
     url-clone="https://github.com/TODOvue/tv-progress-bar.git"
-    version="1.0.0"
+    version="1.2.0"
   />
 </template>

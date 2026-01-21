@@ -30,6 +30,26 @@ defineProps({
   color: {
     type: String,
     default: ''
+  },
+  gradient: {
+    type: Array,
+    default: () => []
+  },
+  glow: {
+    type: Boolean,
+    default: false
+  },
+  glowColor: {
+    type: String,
+    default: ''
+  },
+  duration: {
+    type: String,
+    default: '120ms'
+  },
+  easing: {
+    type: String,
+    default: 'linear'
   }
 })
 
@@ -46,6 +66,11 @@ const contentRef = ref(null)
       :z-index="zIndex"
       :disabled="disabled"
       :color="color"
+      :gradient="gradient"
+      :glow="glow"
+      :glow-color="glowColor"
+      :duration="duration"
+      :easing="easing"
     />
     <div ref="contentRef" class="container-blog">
       <h1>TvProgressBar</h1>
