@@ -64,5 +64,7 @@ const contentRef = ref(null)
 </template>
 
 <style scoped>
-
+.container-blog {
+  height: 100px;
+}
 </style>
