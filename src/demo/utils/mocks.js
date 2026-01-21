@@ -5,6 +5,9 @@ import Disabled from './demos/disabled.vue?raw';
 import Gradient from './demos/gradient.vue?raw';
 import Glow from './demos/glow.vue?raw';
 import Transition from './demos/transition.vue?raw';
+import Vertical from './demos/vertical.vue?raw';
+import Checkpoints from './demos/checkpoints.vue?raw';
+import Label from './demos/label.vue?raw';
 
 export const demos = [
   {
@@ -79,6 +82,43 @@ export const demos = [
   },
   {
     id: 7,
+    title: "Vertical Orientation",
+    description: "Progress bar positioned on the left side.",
+    propsData: {
+      orientation: 'vertical',
+      position: 'left',
+      width: '6px',
+      color: '#4f46e5',
+      glow: true
+    },
+    html: Vertical,
+  },
+  {
+    id: 8,
+    title: "Reading Checkpoints",
+    description: "Display indicators at specific progress points (e.g., 25%, 50%, 75%).",
+    propsData: {
+      checkpoints: [25, 50, 75],
+      color: '#f59e0b',
+      height: '6px'
+    },
+    html: Checkpoints,
+  },
+  {
+    id: 9,
+    title: "Floating Label",
+    description: "Show a floating percentage indicator that follows the progress.",
+    propsData: {
+      showLabel: true,
+      labelPosition: 'floating',
+      color: '#10b981',
+      height: '8px',
+      glow: true
+    },
+    html: Label,
+  },
+  {
+    id: 10,
     title: "TvProgressBar Disabled",
     description: "Progress bar in disabled state.",
     propsData: {

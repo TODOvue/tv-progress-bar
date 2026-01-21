@@ -1,24 +1,107 @@
 @use "variables";
 
 .reading-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.05); // Track background
   pointer-events: none;
-}
+  overflow: visible;
 
-.reading-progress__bar {
-  height: 100%;
-  width: 0;
-  background: variables.$button-bg;
-  transition: width 120ms linear;
+  &--vertical {
+    height: 100vh;
+  }
+
+  &--horizontal {
+    width: 100%;
+  }
+
+  &__bar {
+    position: relative;
+    background: variables.$button-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  &__checkpoints {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &__checkpoint {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+
+    .reading-progress--horizontal & {
+      width: 2px;
+      height: 100%;
+      top: 0;
+    }
+
+    .reading-progress--vertical & {
+      height: 2px;
+      width: 100%;
+      left: 0;
+    }
+
+    &--reached {
+      background: white;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &__label {
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+    pointer-events: auto;
+
+    &--inside {
+      padding: 0 4px;
+    }
+
+    &--floating {
+      position: absolute;
+      background: variables.$button-bg;
+      padding: 2px 6px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+
+      .reading-progress--horizontal & {
+        top: 100%;
+        margin-top: 8px;
+      }
+
+      .reading-progress--vertical & {
+        left: 100%;
+        margin-left: 8px;
+      }
+
+      .reading-progress--right & {
+        left: auto;
+        right: 100%;
+        margin-right: 8px;
+        margin-left: 0;
+      }
+
+      .reading-progress--bottom & {
+        top: auto;
+        bottom: 100%;
+        margin-bottom: 8px;
+        margin-top: 0;
+      }
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reading-progress__bar {
-    transition: none;
+    transition: none !important;
   }
 }

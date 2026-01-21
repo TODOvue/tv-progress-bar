@@ -38,6 +38,10 @@ A lightweight, customizable Vue 3 reading progress bar component that tracks scr
 - Support for Gradients: Pass multiple colors for a modern look
 - Glow Effect: Optional neon glow that follows the progress bar
 - Customizable Transitions: Configure duration and easing functions
+- **Vertical Orientation**: Support for side progress bars (left/right)
+- **Reading Checkpoints**: Display indicators at specific progress points (e.g., 25%, 50%, 75%)
+- **Progress Labels**: Show percentage inside the bar or as a floating bubble
+- **Flexible Positioning**: Fix the bar at the top, bottom, left, right, or use sticky behavior
 - Top and bottom offset support for fixed headers/footers
 - Smooth linear transitions with reduced motion support
 - SSR-safe (works with Nuxt 3 and other SSR frameworks)
@@ -188,20 +192,26 @@ import { TvProgressBar } from '@todovue/tv-progress-bar'
 | Direct default import `import TvProgressBar from '@todovue/tv-progress-bar'` | Single usage or manual registration            |
 
 ## Props
-| Prop         | Type             | Default           | Description                                                     |
-|--------------|------------------|-------------------|-----------------------------------------------------------------|
-| target       | String \| Object | '.container-blog' | CSS selector or element reference to track scroll progress.     |
-| offsetTop    | Number           | 0                 | Top offset in pixels (useful for fixed headers).                |
-| offsetBottom | Number           | 0                 | Bottom offset in pixels (useful for fixed footers).             |
-| height       | String           | '4px'             | Height of the progress bar (CSS value).                         |
-| zIndex       | Number           | 1200              | Z-index for the progress bar positioning.                       |
-| disabled     | Boolean          | false             | Whether the progress bar is enabled and visible.                |
-| color        | String           | ''                | Custom background color for the progress bar (CSS color value). |
-| gradient     | Array            | []                | Array of colors for a linear gradient background.               |
-| glow         | Boolean          | false             | Whether to enable the glow effect.                              |
-| glowColor    | String           | ''                | Custom color for the glow effect.                               |
-| duration     | String           | '120ms'           | Transition duration (e.g., '300ms', '0.5s').                    |
-| easing       | String           | 'linear'          | Transition easing function (e.g., 'ease-in-out').               |
+| Prop          | Type             | Default                                          | Description                                                     |
+|---------------|------------------|--------------------------------------------------|-----------------------------------------------------------------|
+| target        | String \| Object | '.container-blog'                                | CSS selector or element reference to track scroll progress.     |
+| offsetTop     | Number           | 0                                                | Top offset in pixels (useful for fixed headers).                |
+| offsetBottom  | Number           | 0                                                | Bottom offset in pixels (useful for fixed footers).             |
+| height        | String           | '4px'                                            | Height of horizontal progress bar (CSS value).                  |
+| width         | String           | '4px'                                            | Width of vertical progress bar (CSS value).                     |
+| zIndex        | Number           | 1200                                             | Z-index for the progress bar positioning.                       |
+| disabled      | Boolean          | false                                            | Whether the progress bar is enabled and visible.                |
+| color         | String           | ''                                               | Custom background color for the progress bar (CSS color value). |
+| gradient      | Array            | []                                               | Array of colors for a linear gradient background.               |
+| glow          | Boolean          | false                                            | Whether to enable the glow effect.                              |
+| glowColor     | String           | ''                                               | Custom color for the glow effect.                               |
+| duration      | String           | '120ms'                                          | Transition duration (e.g., '300ms', '0.5s').                    |
+| easing        | String           | 'linear'                                         | Transition easing function (e.g., 'ease-in-out').               |
+| orientation   | String           | 'horizontal'                                     | Bar orientation: 'horizontal' or 'vertical'.                    |
+| position      | String           | 'top' (horiz) / 'left' (vert)                    | Positioning: 'top', 'bottom', 'left', 'right', or 'sticky'.     |
+| showLabel     | Boolean          | false                                            | Whether to show the percentage label.                           |
+| labelPosition | String           | 'inside'                                         | Label position: 'inside' or 'floating'.                         |
+| checkpoints   | Array            | []                                               | Array of numbers (0-100) to show indicators on the bar.         |
 
 ### Prop Details
 
@@ -598,6 +608,57 @@ const articleContainer = ref(null)
     </article>
   </div>
 </template>
+
+### Vertical Orientation
+```vue
+<template>
+  <TvProgressBar 
+    target=".content" 
+    orientation="vertical" 
+    position="left" 
+    width="6px" 
+    color="#4f46e5" 
+  />
+</template>
+```
+
+### Reading Checkpoints
+```vue
+<template>
+  <TvProgressBar 
+    target=".content" 
+    :checkpoints="[25, 50, 75]" 
+    color="#f59e0b" 
+  />
+</template>
+```
+
+### Floating Percentage Label
+```vue
+<template>
+  <TvProgressBar 
+    target=".content" 
+    show-label 
+    label-position="floating" 
+    color="#10b981" 
+    glow 
+  />
+</template>
+```
+
+### Sticky Position (Inside Container)
+```vue
+<template>
+  <div class="relative-container">
+    <TvProgressBar 
+      target=".content" 
+      position="sticky" 
+      color="#ec4899" 
+    />
+    <div class="content">...</div>
+  </div>
+</template>
+```
 ```
 
 ### With Fixed Header (Offset Top)

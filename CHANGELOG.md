@@ -12,10 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Glow Effect**: New `glow` prop (Boolean) and `glowColor` (String) to add a neon-like depth effect.
 - **Customizable Transitions**: New `duration` and `easing` props to control the progress bar animation smoothness and feel.
 - New demo variants in the documentation showcasing gradients, glow effects, and custom easing functions.
+- - **Vertical Orientation**: New `orientation` prop to support side progress bars (left/right). Perfect for modern documentation or blogs.
+- **Reading Checkpoints**: New `checkpoints` prop (Array) to show indicators at specific progress points (e.g., [25, 50, 75]).
+- **Progress Labels**: New `showLabel` and `labelPosition` props to display the percentage inside the bar or as a floating bubble.
+- **Configurable Positioning**: New `position` prop to fix the bar at the `top`, `bottom`, `left`, `right`, or even use `sticky` behavior.
+- **Custom Width**: New `width` prop for vertical orientation (default: '4px').
 
 ### Updated
 - `TvProgressBar` internal styles now use dynamic transitions and backgrounds via `:style` for better flexibility.
 - Documentation updated with detailed prop descriptions and usage examples for new aesthetic features.
+- Refactored internal structure to support both horizontal and vertical layouts.
+- Enhanced CSS for track background and checkpoint indicators.
+- Added new demo variants in the documentation.
 
 ### Dependencies
 - Updated `@todovue/tv-demo` to `^1.4.4`.
