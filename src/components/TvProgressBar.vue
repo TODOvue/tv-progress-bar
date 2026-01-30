@@ -193,15 +193,16 @@ const getCheckpointStyle = (checkpoint) => {
 }
 
 const floatingLabelStyle = computed(() => {
+  const percentage = progress.value * 100
   if (!isVertical.value) {
     return {
-      left: `${progress.value * 100}%`,
-      transform: 'translateX(-50%)'
+      left: `${percentage}%`,
+      transform: `translateX(-${percentage}%)`
     }
   } else {
     return {
-      top: `${progress.value * 100}%`,
-      transform: 'translateY(-50%)'
+      top: `${percentage}%`,
+      transform: `translateY(-${percentage}%)`
     }
   }
 })
