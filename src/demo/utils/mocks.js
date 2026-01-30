@@ -8,6 +8,7 @@ import Transition from './demos/transition.vue?raw';
 import Vertical from './demos/vertical.vue?raw';
 import Checkpoints from './demos/checkpoints.vue?raw';
 import Label from './demos/label.vue?raw';
+import Loader from './demos/loader.vue?raw';
 
 export const demos = [
   {
@@ -127,5 +128,18 @@ export const demos = [
       disabled: true,
     },
     html: Disabled,
+  },
+  {
+    id: 11,
+    title: "Loader Mode",
+    description: "Use the component as a loader by controlling the progress externally.",
+    propsData: {
+      modelValue: 45,
+      color: '#3b82f6',
+      height: '8px',
+      showLabel: true,
+      position: 'relative'
+    },
+    html: Loader,
   },
 ];

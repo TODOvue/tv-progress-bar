@@ -63,7 +63,7 @@ const props = defineProps({
   position: {
     type: String,
     default: (props) => props.orientation === 'vertical' ? 'left' : 'top',
-    validator: (val) => ['top', 'bottom', 'left', 'right', 'sticky'].includes(val)
+    validator: (val) => ['top', 'bottom', 'left', 'right', 'sticky', 'relative'].includes(val)
   },
   showLabel: {
     type: Boolean,
@@ -77,6 +77,10 @@ const props = defineProps({
   checkpoints: {
     type: Array,
     default: () => []
+  },
+  modelValue: {
+    type: Number,
+    default: null
   }
 })
 
@@ -104,7 +108,22 @@ watchEffect(() => {
 
 const { progress, progressPercent, recalculate } = useProgressBar(el, {
   offsetTop: computed(() => props.offsetTop),
-  offsetBottom: computed(() => props.offsetBottom)
+  offsetBottom: computed(() => props.offsetBottom),
+  enabled: computed(() => props.modelValue === null)
+})
+
+const finalProgress = computed(() => {
+  if (props.modelValue !== null) {
+    return Math.min(1, Math.max(0, props.modelValue / 100))
+  }
+  return progress.value
+})
+
+const finalProgressPercent = computed(() => {
+  if (props.modelValue !== null) {
+    return Math.round(Math.min(100, Math.max(0, props.modelValue)))
+  }
+  return progressPercent.value
 })
 
 watch(
@@ -121,15 +140,21 @@ const isVertical = computed(() => props.orientation === 'vertical')
 
 const containerStyle = computed(() => {
   const styles = {
-    zIndex: String(props.zIndex),
-    position: props.position === 'sticky' ? 'sticky' : 'fixed'
+    zIndex: String(props.zIndex)
+  }
+
+  if (['sticky', 'relative'].includes(props.position)) {
+    styles.position = props.position
+  } else {
+    styles.position = 'fixed'
   }
 
   if (isVertical.value) {
     styles.width = props.width
+    styles.height = props.position === 'relative' ? '100%' : '100vh'
+
     styles.top = '0'
     styles.bottom = '0'
-    styles.height = '100vh'
     if (props.position === 'right') {
       styles.right = '0'
       styles.left = 'auto'
@@ -139,9 +164,10 @@ const containerStyle = computed(() => {
     }
   } else {
     styles.height = props.height
+    styles.width = '100%'
+
     styles.left = '0'
     styles.right = '0'
-    styles.width = '100%'
     if (props.position === 'bottom') {
       styles.bottom = '0'
       styles.top = 'auto'
@@ -165,10 +191,10 @@ const barStyle = computed(() => {
   }
 
   if (isVertical.value) {
-    styles.height = `${progress.value * 100}%`
+    styles.height = `${finalProgress.value * 100}%`
     styles.width = '100%'
   } else {
-    styles.width = `${progress.value * 100}%`
+    styles.width = `${finalProgress.value * 100}%`
     styles.height = '100%'
   }
 
@@ -193,7 +219,7 @@ const getCheckpointStyle = (checkpoint) => {
 }
 
 const floatingLabelStyle = computed(() => {
-  const percentage = progress.value * 100
+  const percentage = finalProgress.value * 100
   if (!isVertical.value) {
     return {
       left: `${percentage}%`,
@@ -223,7 +249,7 @@ const floatingLabelStyle = computed(() => {
         v-for="cp in checkpoints"
         :key="cp"
         class="reading-progress__checkpoint"
-        :class="{ 'reading-progress__checkpoint--reached': progressPercent >= cp }"
+        :class="{ 'reading-progress__checkpoint--reached': finalProgressPercent >= cp }"
         :style="getCheckpointStyle(cp)"
       />
     </div>
@@ -234,13 +260,13 @@ const floatingLabelStyle = computed(() => {
       aria-label="Reading progress"
       aria-valuemin="0"
       aria-valuemax="100"
-      :aria-valuenow="progressPercent"
+      :aria-valuenow="finalProgressPercent"
     >
       <span
         v-if="showLabel && labelPosition === 'inside'"
         class="reading-progress__label reading-progress__label--inside"
       >
-        {{ progressPercent }}%
+        {{ finalProgressPercent }}%
       </span>
     </div>
     <div
@@ -248,7 +274,7 @@ const floatingLabelStyle = computed(() => {
       class="reading-progress__label reading-progress__label--floating"
       :style="floatingLabelStyle"
     >
-      {{ progressPercent }}%
+      {{ finalProgressPercent }}%
     </div>
   </div>
 </template>

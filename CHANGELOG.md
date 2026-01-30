@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Corrected floating label positioning calculations to ensure proper alignment within input fields.
 
+### Added
+- Introduced a loader mode with a `modelValue` prop to allow for external control of progress state.
+
 ## [1.1.1] - 2026-01-27
 
 ### Changed
