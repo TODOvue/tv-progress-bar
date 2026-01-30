@@ -1,4 +1,4 @@
-import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 export function useProgressBar(targetEl, options = {}) {
   const offsetTop = computed(() => {
@@ -10,6 +10,11 @@ export function useProgressBar(targetEl, options = {}) {
     return (val && typeof val === 'object' && 'value' in val) ? val.value : (val ?? 0)
   })
 
+  const isEnabled = computed(() => {
+    const val = options.enabled
+    return (val && typeof val === 'object' && 'value' in val) ? !!val.value : (val ?? true)
+  })
+
   const progress = ref(0)
 
   let rafId = null
@@ -19,6 +24,7 @@ export function useProgressBar(targetEl, options = {}) {
 
   const measure = () => {
     if (typeof window === 'undefined') return
+    if (!isEnabled.value) return
 
     const el = targetEl.value
     if (!el) {
@@ -50,7 +56,7 @@ export function useProgressBar(targetEl, options = {}) {
 
   const scheduleMeasure = () => {
     if (typeof window === 'undefined') return
-    
+
     if (rafId != null) return
 
     rafId = window.requestAnimationFrame(() => {
@@ -84,29 +90,55 @@ export function useProgressBar(targetEl, options = {}) {
     async (newEl, oldEl) => {
       if (typeof window === 'undefined') return
       if (newEl === oldEl) return
-      observeResize()
-      await recalculate()
+      if (isEnabled.value) {
+        observeResize()
+        await recalculate()
+      }
     }
   )
+
+  const addListeners = () => {
+    if (typeof window === 'undefined') return
+    window.addEventListener('scroll', scheduleMeasure, { passive: true })
+    window.addEventListener('resize', scheduleMeasure)
+    window.addEventListener('load', scheduleMeasure)
+  }
+
+  const removeListeners = () => {
+    if (typeof window === 'undefined') return
+    window.removeEventListener('scroll', scheduleMeasure)
+    window.removeEventListener('resize', scheduleMeasure)
+    window.removeEventListener('load', scheduleMeasure)
+  }
+
+  watch(isEnabled, (enabled) => {
+    if (enabled) {
+      addListeners()
+      observeResize()
+      recalculate()
+    } else {
+      removeListeners()
+      if (resizeObserver) {
+        resizeObserver.disconnect()
+        resizeObserver = null
+      }
+    }
+  })
 
   onMounted(async () => {
     if (typeof window === 'undefined') return
 
-    await recalculate()
-
-    window.addEventListener('scroll', scheduleMeasure, { passive: true })
-    window.addEventListener('resize', scheduleMeasure)
-    window.addEventListener('load', scheduleMeasure)
-
-    observeResize()
+    if (isEnabled.value) {
+      addListeners()
+      observeResize()
+      await recalculate()
+    }
   })
 
   onBeforeUnmount(() => {
     if (typeof window === 'undefined') return
 
-    window.removeEventListener('scroll', scheduleMeasure)
-    window.removeEventListener('resize', scheduleMeasure)
-    window.removeEventListener('load', scheduleMeasure)
+    removeListeners()
 
     if (rafId != null) {
       window.cancelAnimationFrame(rafId)
